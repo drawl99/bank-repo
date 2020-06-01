@@ -94,6 +94,14 @@ public class AccountServiceImpl implements AccountService {
 		if(entity.getPassword().trim().length()<6 || entity.getPassword().trim().length()>20) {
 			throw new Exception("La contraseña debe tener entre 6 y 20 digitos");
 		}
+		
+		Optional<Account> optionalAccount = accountRepository.findById(entity.getAccoId());
+		Account account = optionalAccount.get();
+		Client client = clientRespository.findById(entity.getClient().getClieId()).get();
+		if(!account.getPassword().equals(entity.getPassword())) {
+			sendEmailService.notificationUpdadePasword(client.getEmail(), entity.getAccoId(), entity.getPassword());
+		}
+		
 		accountRepository.save(entity);
 		return entity;
 	}

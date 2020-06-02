@@ -115,7 +115,7 @@ public class BankTransactionImpl implements BankTransaction {
 		}
 		Account account = accountService.findById(depositDTO.getAccoId()).get();
 		
-		if(account.getEnable().equals("N") && account.getBalance().compareTo(BigDecimal.ZERO)==0 && depositDTO.getAmount().compareTo(new BigDecimal(200000))>=0) {
+		if(account.getEnable().equals("N") && depositDTO.getAmount().compareTo(new BigDecimal(200000))>=0) {
 			account.setEnable("S");
 			accountService.update(account);
 		}
